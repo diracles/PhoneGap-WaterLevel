@@ -1,97 +1,83 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 var app = {
-    // Application Constructor
-
+/*
+    location for the messageDiv, in percentage:
+*/
     loc: {
         x: 10,
         y: 10
     },
-
+/*
+    Application constructor
+*/
     initialize: function() {
-        this.bindEvents();
-        console.log("starting the gyro app");
+        this.bindEvents();          // bind any UI events to listeners
+        console.log("Starting Accelerometer app");
     },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
+/*
+    bind any events that are required on startup to listeners:
+*/
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('click', this.resetScreen, false);
     },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicity call 'app.receivedEvent(...);'
+
+/*
+    this runs when the device is ready for user interaction:
+*/
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+        // start watching the accelerometer:
         app.watchAcceleration();
     },
 
     watchAcceleration: function() {
-        function success(acceleration){
+        function success(acceleration) {
+            // clear the messageDiv and add the accelerometer values:
             app.clear();
-            app.display('X ' + acceleration.x.toFixed(2));
-            app.display('Y ' + acceleration.y.toFixed(2));
-            app.display('Z ' + (acceleration.z - 9.80).toFixed(2));
-
+            app.display('X: ' + acceleration.x.toFixed(2));
+            app.display('Y: ' + acceleration.y.toFixed(2));
+            app.display('Z: ' + (acceleration.z - 9.80).toFixed(2));
+            
+            // set app.loc using the accelerometer values:
             app.loc.x -= acceleration.x;
             app.loc.y -= acceleration.y;
-
-            messageDiv.style.top = app.loc.y + '%';
+            
+            // set the messageDiv style parameters using app.loc:
+            messageDiv.style.top = app.loc.y  + '%';
             messageDiv.style.left = app.loc.x + '%';
-
-
         }
-
+            
         function failure(error) {
+            // if the accelerometer fails, display the error:
             app.display('Accelerometer error');
             app.display(error);
         }
-
+            
+        // taceh the accelerometer every 100ms: 
         var watchAccel = navigator.accelerometer.watchAcceleration(success, failure, {
             frequency: 100
         });
     },
-
+    
+    // reset the messageDiv to the center of the screen:
+    resetScreen: function() {
+        app.loc.x = 50;
+        app.loc.y = 50;
+        messageDiv.style.top = app.loc.y  + '%';
+        messageDiv.style.left = app.loc.x + '%';
+    },
+    /*
+        appends @message to the message div:
+    */
     display: function(message) {
         var label = document.createTextNode(message),
             lineBreak = document.createElement("br");
-        messageDiv.appendChild(lineBreak);
-        messageDiv.appendChild(label);
+        messageDiv.appendChild(lineBreak);          // add a line break
+        messageDiv.appendChild(label);              // add the text
     },
-
+    /*
+        clears the message div:
+    */
     clear: function() {
         messageDiv.innerHTML = "";
-    },
-
-
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
     }
-};
+};          // end of app
