@@ -21,8 +21,10 @@
 /Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/js \
 /Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/plugins \
 /Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/css/index.css \
+/Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/img/littleboat.png \
 /Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/img/logo.png \
 /Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/js/index.js \
+/Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/js/zepto.min.js \
 /Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/plugins/org.apache.cordova.device-motion \
 /Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/plugins/org.apache.cordova.device-motion/www \
 /Users/alexandradiracles/PhoneGap-WaterLevel/hello/platforms/android/assets/www/plugins/org.apache.cordova.device-motion/www/Acceleration.js \

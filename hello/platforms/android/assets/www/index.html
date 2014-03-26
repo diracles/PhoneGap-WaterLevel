@@ -2,17 +2,61 @@
 
 <html>
    <head>
-      <title>Accelerometer</title>
+      <title>Don't Tip the Boat</title>
       <link rel="stylesheet"  type="text/css" href="style.css">
    </head>
+
       <div class="app">
-         <div id="messageDiv"></div>
+
+   <!--    <div id='boat'>
+      <div class = "boatStuff">  
+      </div> -->
+
+      <img id="boat" src="/img/littleboat.png" alt="littleboat"/>
+
+  
+
+      <div id="vizDic"><p>Too many tips?  Reset boat callibration here:<p/>
       </div>
-      <script type="text/javascript" src="cordova.js"></script>
+
+      <input type="range" id="redSlider" min="0" max="100"  onchange="setAngle(this, r);">
+      <input type="text" id="r" size=2><br>
+
+      <br>
+
+
+      <div id="messageDiv"><p> Turn off water!</p></div>
+
+
+      <button type="button" class"buttonAllie" id="1" onclick="test();"autofocus>OFF<br>
+
+      </button>
+
+  
+
+      </div>
+     <script type="text/javascript" src="cordova.js"></script>
      <script type="text/javascript" src="js/index.js"></script>
+     <script type="text/javascript" src="js/zepto.min.js"></script>
      <script type="text/javascript">
+
        app.initialize();
+
+       function test() {
+        console.log("test");
+        $.get("/arduino/"+ "b" + "/" + 0);  
+
+       }
+
+       function setAngle(ui, display) {
+          display.value= ui.value;
+          $.get("/arduino/"+ display.id + "/" + ui.value);
+        } 
+
      </script>
+
+
+
    </body>
 </html>
 

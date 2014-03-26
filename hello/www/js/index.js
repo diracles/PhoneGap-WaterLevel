@@ -6,19 +6,25 @@ var app = {
         x: 10,
         y: 10
     },
+
+
 /*
     Application constructor
 */
     initialize: function() {
         this.bindEvents();          // bind any UI events to listeners
         console.log("Starting Accelerometer app");
+        app.display("/img/littleboat.png");
     },
 /*
     bind any events that are required on startup to listeners:
 */
     bindEvents: function() {
+        //waterButton.addEventListener('touchend', this.turnOffWater, false);
+        //waterButton.addEventListener('click', this.turnOffWater, false);
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('click', this.resetScreen, false);
+
     },
 
 /*
@@ -27,15 +33,16 @@ var app = {
     onDeviceReady: function() {
         // start watching the accelerometer:
         app.watchAcceleration();
+        console.log("ondeviceread");
     },
 
     watchAcceleration: function() {
         function success(acceleration) {
             // clear the messageDiv and add the accelerometer values:
             app.clear();
-            app.display('X: ' + acceleration.x.toFixed(2));
-            app.display('Y: ' + acceleration.y.toFixed(2));
-            app.display('Z: ' + (acceleration.z - 9.80).toFixed(2));
+            // app.display('X: ' + acceleration.x.toFixed(2));
+            // app.display('Y: ' + acceleration.y.toFixed(2));
+            // app.display('Z: ' + (acceleration.z - 9.80).toFixed(2));
             
             // set app.loc using the accelerometer values:
             app.loc.x -= acceleration.x;
@@ -57,6 +64,65 @@ var app = {
             frequency: 100
         });
     },
+
+    turnOffWater: function(off) {
+        console.log("turnoff water called");
+        //alert('function called');
+        //messageDiv.innerHTML = "attempting to turn off water...";
+        $.get("/arduino/"+ "r" + "/" + off.value);  
+
+
+    
+    },
+
+//a form way to send data with javascript
+
+    sendData: function(data) {
+          var XHR = new XMLHttpRequest();
+          var urlEncodedData = "42";
+
+          // We turn the data object into a URL encoded string
+          for(name in data) {
+            urlEncodedData += name + "=" + data[name] + "&";
+          }
+
+         
+
+          // We URLEncode the string
+          urlEncodedData = encodeURIComponent(urlEncodedData);
+
+          // encodeURIComponent encode a little to much things
+          // to properly handle HTTP POST requests.
+          urlEncodedData = urlEncodedData.replace('%20','+').replace('%3D','=');
+
+          // We define what will happen if the data are successfully sent
+          XHR.addEventListener('load', function(event) {
+            alert('Yeah! Data sent and water is turning off.');
+          });
+
+          // We define what will happen in case of error
+          XHR.addEventListener('error', function(event) {
+            alert('Oups! Something went wrong.');
+          });
+
+          // We setup our request
+          XHR.open('POST', 'http://ucommbieber.unl.edu/CORS/cors.php');
+
+          // We add the required HTTP header to handle a form data POST request
+          XHR.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+          XHR.setRequestHeader('Content-Length', urlEncodedData.length);
+
+          // And finally, We send our data.
+          XHR.send(urlEncodedData);
+        },
+
+
+        test: function() {
+        	console.log("test");
+        },
+
+
+  
     
     // reset the messageDiv to the center of the screen:
     resetScreen: function() {
